@@ -1,0 +1,16 @@
+version: '3'
+services:
+  distribd-master:
+    build: .
+    command: -H http://kome.inokara.com --master
+    ports:
+      - "11000:11000"
+      - "12000:12000"
+  distribd-slave:
+    build: .
+    command: -haddr 192.168.128.10:11000 -raddr 192.168.128.10:12000 -join 127.0.0.1:11000
+    ports:
+      - "11000:11000"
+      - "12000:12000"
+    depends_on:
+      - distribd-master
